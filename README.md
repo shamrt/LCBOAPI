@@ -35,3 +35,21 @@ Get data for store #614:
 ```python
 print api.stores(614)
 ```
+
+## Testing
+
+First setup your virtual environment:
+
+    $ virtualenv env
+    $ . env/bin/active
+    $ pip install -r requirements.txt
+
+Then set an environment variable for your API access key:
+
+```bash
+$ export LCBOAPI_ACCESS_KEY='your_API_access_key'
+```
+
+Finally, run tests:
+
+    $ py.test

@@ -12,6 +12,7 @@ setup(
   author_email = 'dev.sh@nemart.in',
   license='MIT License',
   url = 'https://github.com/shamrt/LCBOAPI',
+  install_requires = ['pytest==2.7.2']
   keywords = ['api', 'lcbo'],
   platforms = ['any'],
   classifiers=[
