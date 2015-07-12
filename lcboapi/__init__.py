@@ -18,8 +18,8 @@ import urllib2
 import logging as log
 
 
-class Query(object):
-    """Make LCBO API query.
+class LCBOAPI(object):
+    """Make LCBO API queries.
 
     Arguments:
         access_key = LCBO API access key
