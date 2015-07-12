@@ -72,3 +72,27 @@ class Query(object):
         time.sleep(self.timeout)  # be nice to LCBOAPI and they'll be nice to you!
 
         return response
+
+    def stores(store_id=None, **params):
+        """Get stores data.
+
+        Arguments:
+            store_id = LCBO store ID
+        """
+        if store_id:
+            response = self._make_query('stores', str(store_id), params)
+        else:
+            response = self._make_query('stores', params)
+        return response
+
+    def products(product_id=None, **params):
+        """Get products data.
+
+        Arguments:
+            store_id = LCBO store ID
+        """
+        if product_id:
+            response = self._make_query('products', str(product_id), params)
+        else:
+            response = self._make_query('products', params)
+        return response
