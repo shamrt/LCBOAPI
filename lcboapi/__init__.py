@@ -39,7 +39,7 @@ class LCBOAPI(object):
         if response_type == 'json' or response_type == 'csv':
             self.response_type = response_type
 
-    def _make_query(self, endpoint, path=None, **params):
+    def _make_query(self, endpoint, path=None, params=None):
         """Build query URL and make request.
 
         Arguments:
@@ -54,9 +54,9 @@ class LCBOAPI(object):
         url.append(endpoint)
         if path:
             url.append(path)
-        params = urllib.urlencode(params)
         if params:
-            url.append('?' + params)
+            uri_params = urllib.urlencode(params)
+            url.append('?' + uri_params)
 
         log.debug('Query URL: {}'.format('/'.join(url)))
 
