@@ -30,7 +30,7 @@ class LCBOAPI(object):
         self.timeout = 0.05
         self.url = 'https://lcboapi.com'
 
-    def set_response_type(response_type):
+    def set_response_type(self, response_type):
         """Set response format for the API (default = JSON).
 
         Arguments:
@@ -39,7 +39,7 @@ class LCBOAPI(object):
         if response_type == 'json' or response_type == 'csv':
             self.response_type = response_type
 
-    def _make_query(endpoint, path=None, **params):
+    def _make_query(self, endpoint, path=None, **params):
         """Build query URL and make request.
 
         Arguments:
@@ -73,7 +73,7 @@ class LCBOAPI(object):
 
         return response
 
-    def stores(store_id=None, **params):
+    def stores(self, store_id=None, **params):
         """Get stores data.
 
         Arguments:
@@ -85,7 +85,7 @@ class LCBOAPI(object):
             response = self._make_query('stores', params)
         return response
 
-    def products(product_id=None, **params):
+    def products(self, product_id=None, **params):
         """Get products data.
 
         Arguments:
