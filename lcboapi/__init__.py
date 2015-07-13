@@ -109,3 +109,16 @@ class LCBOAPI(object):
         elif product_id:
             params['store_id'] = product_id
         return self._make_query(path, params)
+
+
+    def datasets(self, dataset_id=None, **params):
+        """Get a list of inventories that can be filtered and ordered by parameters.
+
+        Arguments:
+            dataset_id = An inventory ID for the specified dataset
+            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+        """
+        path = 'datasets'
+        if dataset_id:
+            path = '/'.join([path, str(dataset_id)])
+        return self._make_query(path, params)
