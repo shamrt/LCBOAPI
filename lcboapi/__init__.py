@@ -45,7 +45,7 @@ class LCBOAPI(object):
         Arguments:
             path = The URL path, which must always begin with the request endpoint
                 ('stores', 'products', 'inventories', 'datasets')
-            params = Query parametres (see https://lcboapi.com/docs for options)
+            params = Query parametres (optional; see https://lcboapi.com/docs for details)
 
         Returns:
             Deserialized JSON query response as Python object
@@ -73,6 +73,7 @@ class LCBOAPI(object):
 
         Arguments:
             store_id = LCBO store ID
+            params = Query parametres (optional; see https://lcboapi.com/docs for details)
         """
         path = 'stores'
         if store_id:
@@ -84,8 +85,27 @@ class LCBOAPI(object):
 
         Arguments:
             product_id = LCBO product ID
+            params = Query parametres (optional; see https://lcboapi.com/docs for details)
         """
         path = 'products'
         if product_id:
             path = '/'.join([path, str(product_id)])
+        return self._make_query(path, params)
+
+
+    def inventories(self, store_id=None, product_id=None, **params):
+        """Get data about the presence of a product at an LCBO store.
+
+        Arguments:
+            store_id = LCBO store ID
+            product_id = LCBO product ID
+            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+        """
+        path = 'inventories'
+        if store_id and product_id:
+            path = 'stores/{}/products/{}/inventory'.format(store_id, product_id)
+        elif store_id:
+            params['store_id'] = store_id
+        elif product_id:
+            params['store_id'] = product_id
         return self._make_query(path, params)
