@@ -5,7 +5,7 @@ long_description = open('README.rst').read()
 setup(
   name = 'lcboapi',
   packages = ['lcboapi'],
-  version = '0.1.1',
+  version = '0.1.2',
   description = 'Python wrapper for the unofficial LCBO API',
   long_description = long_description,
   author = 'Shane Martin',
