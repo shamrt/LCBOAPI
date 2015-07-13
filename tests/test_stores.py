@@ -1,8 +1,10 @@
 from os import environ
+from urllib2 import HTTPError
 
 import pytest
 
 from lcboapi import LCBOAPI
+
 
 access_key = environ['LCBOAPI_ACCESS_KEY']
 api = LCBOAPI(access_key)
@@ -26,12 +28,19 @@ def test_stores_with_store_id():
     assert 'result' in resp
 
     res = resp['result']
-    assert res['id'] == '10'
+    assert res['id'] == 10
     assert res['name'] == 'Yonge & Summerhill'
 
 
 def test_stores_with_invalid_store_id():
-    resp = api.stores(1000)
-    assert resp['status'] == 404
-    assert resp['message'] != None
-    assert resp['result'] == None
+    with pytest.raises(HTTPError):
+        resp = api.stores(1000)
+
+
+def test_stores_with_params():
+    resp = api.stores(per_page=100)
+    assert resp['status'] == 200
+    assert 'pager' in resp
+    assert resp['pager']['records_per_page'] == 100
+    assert 'result' in resp
+    assert len(resp['result']) == 100
