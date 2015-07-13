@@ -20,7 +20,7 @@ Via Github:
 
 ## Usage
 
-[Obtain an access key](https://lcboapi.com/sign-up) from LCBO API.
+Obtain an [access key](https://lcboapi.com/sign-up) from LCBO API.
 
 Initialize API wrapper:
 
