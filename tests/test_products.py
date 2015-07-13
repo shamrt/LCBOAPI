@@ -15,26 +15,26 @@ def test_products_without_args():
 
 
 def test_products_with_product_id():
-    product_id = 688135
-    resp = api.products(product_id)
+    resp = api.products(VALID_PRODUCT['id'])
     assert resp['status'] == 200
     assert 'pager' not in resp
     assert 'result' in resp
 
     res = resp['result']
-    assert res['product_no'] == product_id
-    assert res['name'] == 'Molson Canadian'
+    assert res['product_no'] == VALID_PRODUCT['id']
+    assert res['name'] == VALID_PRODUCT['name']
 
 
 def test_products_with_invalid_product_id():
     with pytest.raises(HTTPError):
-        resp = api.products(10000000)
+        resp = api.products(INVALID_PRODUCT_ID)
 
 
 def test_products_with_params():
-    resp = api.products(per_page=100)
+    per_page = 100
+    resp = api.products(per_page=per_page)
     assert resp['status'] == 200
     assert 'pager' in resp
-    assert resp['pager']['records_per_page'] == 100
+    assert resp['pager']['records_per_page'] == per_page
     assert 'result' in resp
-    assert len(resp['result']) == 100
+    assert len(resp['result']) == per_page
