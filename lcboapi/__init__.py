@@ -86,6 +86,6 @@ class LCBOAPI(object):
             product_id = LCBO product ID
         """
         path = 'products'
-        if store_id:
+        if product_id:
             path = '/'.join([path, str(product_id)])
         return self._make_query(path, params)
