@@ -1,4 +1,4 @@
-LCBOAPI - v0.1.3
+LCBOAPI - v0.1.4
 ================
 
 Python wrapper for the unofficial LCBO API
