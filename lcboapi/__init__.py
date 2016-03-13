@@ -9,12 +9,14 @@ import json
 import time
 import urllib
 import urllib2
-import logging as log
+import logging
 
 __title__ = 'lcboapi'
 __version__ = '0.1.4'
 __author__ = 'Shane Martin'
 __license__ = 'MIT'
+
+logger = logging.getLogger(__name__)
 
 
 class LCBOAPI(object):
@@ -58,12 +60,18 @@ class LCBOAPI(object):
             url_parts.append('?' + url_params)
         query_url = '/'.join(url_parts)
 
-        log.debug('Query URL: {}'.format(query_url))
+        logger.debug('Query URL: {}'.format(query_url))
 
         request = urllib2.Request(query_url)
-        request.add_header('Authorization', 'Token {}'.format(self.access_key))
+        request.add_header(
+            'Authorization', 'Token {}'.format(self.access_key))
+        payload = urllib2.urlopen(request)
 
-        response = json.load(urllib2.urlopen(request))
+        response = None
+        try:
+            response = json.load(payload)
+        except ValueError as e:
+            logger.exception("Issue with payload: \"{}\"".format(payload))
 
         # be nice to LCBOAPI and they'll be nice to you!
         time.sleep(self.timeout)
