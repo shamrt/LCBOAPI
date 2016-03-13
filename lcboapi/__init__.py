@@ -5,17 +5,16 @@ LCBOAPI
 
 Python wrapper for the unofficial LCBO API - https://lcboapi.com/docs
 """
-
-__title__ = 'lcboapi'
-__version__ = '0.1.4'
-__author__ = 'Shane Martin'
-__license__ = 'MIT'
-
 import json
 import time
 import urllib
 import urllib2
 import logging as log
+
+__title__ = 'lcboapi'
+__version__ = '0.1.4'
+__author__ = 'Shane Martin'
+__license__ = 'MIT'
 
 
 class LCBOAPI(object):
@@ -34,7 +33,8 @@ class LCBOAPI(object):
         """Set response format for the API (default = JSON).
 
         Arguments:
-            response_type = The default response format for the API ('json' or 'csv')
+            response_type = The default response format for the API ('json'
+                or 'csv')
         """
         if response_type == 'json' or response_type == 'csv':
             self.response_type = response_type
@@ -43,9 +43,10 @@ class LCBOAPI(object):
         """Build query URL and make request.
 
         Arguments:
-            path = The URL path, which must always begin with the request endpoint
-                ('stores', 'products', 'inventories', 'datasets')
-            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+            path = The URL path, which must always begin with the request
+                endpoint ('stores', 'products', 'inventories', 'datasets')
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
 
         Returns:
             Deserialized JSON query response as Python object
@@ -64,7 +65,8 @@ class LCBOAPI(object):
 
         response = json.load(urllib2.urlopen(request))
 
-        time.sleep(self.timeout)  # be nice to LCBOAPI and they'll be nice to you!
+        # be nice to LCBOAPI and they'll be nice to you!
+        time.sleep(self.timeout)
 
         return response
 
@@ -73,7 +75,8 @@ class LCBOAPI(object):
 
         Arguments:
             store_id = LCBO store ID
-            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
         """
         path = 'stores'
         if store_id:
@@ -85,13 +88,13 @@ class LCBOAPI(object):
 
         Arguments:
             product_id = LCBO product ID
-            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
         """
         path = 'products'
         if product_id:
             path = '/'.join([path, str(product_id)])
         return self._make_query(path, params)
-
 
     def inventories(self, store_id=None, product_id=None, **params):
         """Get data about the presence of a product at an LCBO store.
@@ -99,24 +102,26 @@ class LCBOAPI(object):
         Arguments:
             store_id = LCBO store ID
             product_id = LCBO product ID
-            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
         """
         path = 'inventories'
         if store_id and product_id:
-            path = 'stores/{}/products/{}/inventory'.format(store_id, product_id)
+            path = 'stores/{}/products/{}/inventory'.format(
+                store_id, product_id)
         elif store_id:
             params['store_id'] = store_id
         elif product_id:
             params['store_id'] = product_id
         return self._make_query(path, params)
 
-
     def datasets(self, dataset_id=None, **params):
         """Get a list of inventories that can be filtered and ordered by parameters.
 
         Arguments:
             dataset_id = An inventory ID for the specified dataset
-            params = Query parametres (optional; see https://lcboapi.com/docs for details)
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
         """
         path = 'datasets'
         if dataset_id:
