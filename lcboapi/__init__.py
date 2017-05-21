@@ -7,8 +7,8 @@ Python wrapper for the unofficial LCBO API - https://lcboapi.com/docs
 """
 import json
 import time
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import logging
 
 __title__ = 'lcboapi'
@@ -56,16 +56,16 @@ class LCBOAPI(object):
         url_parts = [self.url]
         url_parts.append(path)
         if params:
-            url_params = urllib.urlencode(params)
+            url_params = urllib.parse.urlencode(params)
             url_parts.append('?' + url_params)
         query_url = '/'.join(url_parts)
 
         logger.debug('Query URL: {}'.format(query_url))
 
-        request = urllib2.Request(query_url)
+        request = urllib.request.Request(query_url)
         request.add_header(
             'Authorization', 'Token {}'.format(self.access_key))
-        payload = urllib2.urlopen(request)
+        payload = urllib.request.urlopen(request)
 
         response = None
         try:
