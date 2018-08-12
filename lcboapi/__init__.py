@@ -12,7 +12,7 @@ import urllib.request, urllib.error, urllib.parse
 import logging
 
 __title__ = 'lcboapi'
-__version__ = '0.1.5'
+__version__ = '0.2.0'
 __author__ = 'Shane Martin'
 __license__ = 'MIT'
 
