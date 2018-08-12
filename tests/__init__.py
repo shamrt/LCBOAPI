@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from os import environ
-from urllib2 import HTTPError
+from urllib.error import HTTPError
 
 import pytest
 
