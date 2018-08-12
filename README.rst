@@ -1,7 +1,7 @@
 LCBOAPI - v0.1.5
 ================
 
-Python wrapper for the unofficial LCBO API
+Python 3 wrapper for the unofficial LCBO API
 
 Full API documentation for LCBO API can be found at:
 [https://lcboapi.com/docs\ ]
@@ -50,7 +50,7 @@ First setup your virtual environment:
 ::
 
     $ virtualenv env
-    $ . env/bin/active
+    $ . env/bin/activate
     $ pip install -r requirements.txt
 
 Then set an environment variable for your API access key:
