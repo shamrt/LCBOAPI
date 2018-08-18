@@ -1,5 +1,8 @@
-# -*- coding: utf-8 -*-
-from tests import *
+from urllib.error import HTTPError
+import pytest
+
+from tests import api
+from .constants import VALID_STORE, INVALID_STORE_ID
 
 
 def test_stores_without_args():
@@ -29,7 +32,7 @@ def test_stores_with_store_id():
 
 def test_stores_with_invalid_store_id():
     with pytest.raises(HTTPError):
-        resp = api.stores(INVALID_STORE_ID)
+        api.stores(INVALID_STORE_ID)
 
 
 def test_stores_with_params():

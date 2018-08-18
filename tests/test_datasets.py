@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-from tests import *
+import pytest
+
+from tests import api
 
 
 RESULT_ATTRIBUTES = [
@@ -25,22 +26,24 @@ RESULT_ATTRIBUTES = [
 DATASET_ID = 800
 
 
+def _check_result_attrs(result_set):
+    for attr in RESULT_ATTRIBUTES:
+        assert attr in result_set
+
+
 def test_datasets_without_args():
     resp = api.datasets()
     assert resp['status'] == 200
     assert 'pager' in resp
-
     assert 'result' in resp
-    res = resp['result']
-    for attr in RESULT_ATTRIBUTES:
-        assert attr in res[0]
+
+    for res in resp['result']:
+        _check_result_attrs(res)
 
 
 def test_datasets_with_dataset_id():
     resp = api.datasets(DATASET_ID)
     assert resp['status'] == 200
     assert 'pager' not in resp
-
     assert 'result' in resp
-    for attr in RESULT_ATTRIBUTES:
-        assert attr in resp['result']
+    _check_result_attrs(resp['result'])

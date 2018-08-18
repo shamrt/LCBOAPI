@@ -1,5 +1,8 @@
-# -*- coding: utf-8 -*-
-from tests import *
+from urllib.error import HTTPError
+import pytest
+
+from tests import api
+from .constants import VALID_PRODUCT, INVALID_PRODUCT_ID
 
 
 def test_products_without_args():
@@ -27,7 +30,7 @@ def test_products_with_product_id():
 
 def test_products_with_invalid_product_id():
     with pytest.raises(HTTPError):
-        resp = api.products(INVALID_PRODUCT_ID)
+        api.products(INVALID_PRODUCT_ID)
 
 
 def test_products_with_params():

@@ -1,5 +1,13 @@
-# -*- coding: utf-8 -*-
-from tests import *
+from urllib.error import HTTPError
+import pytest
+
+from tests import api
+from .constants import (
+    VALID_STORE,
+    VALID_PRODUCT,
+    INVALID_PRODUCT_ID,
+    INVALID_STORE_ID
+)
 
 
 def test_inventories_without_args():
@@ -46,19 +54,19 @@ def test_inventories_with_params():
 
 def test_inventories_with_invalid_store_id():
     with pytest.raises(HTTPError):
-        resp = api.inventories(store_id=INVALID_STORE_ID)
+        api.inventories(store_id=INVALID_STORE_ID)
 
 
 def test_inventories_with_invalid_product_id():
     with pytest.raises(HTTPError):
-        resp = api.inventories(product_id=INVALID_PRODUCT_ID)
+        api.inventories(product_id=INVALID_PRODUCT_ID)
 
 
 def test_inventories_with_store_id_and_invalid_product_id():
     with pytest.raises(HTTPError):
-        resp = api.inventories(VALID_STORE['id'], INVALID_PRODUCT_ID)
+        api.inventories(VALID_STORE['id'], INVALID_PRODUCT_ID)
 
 
 def test_inventories_with_invalid_store_id_and_valid_product_id():
     with pytest.raises(HTTPError):
-        resp = api.inventories(INVALID_STORE_ID, VALID_PRODUCT['id'])
+        api.inventories(INVALID_STORE_ID, VALID_PRODUCT['id'])
