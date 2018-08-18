@@ -1,20 +1,19 @@
-from distutils.core import setup
+import setuptools
 
 long_description = open('README.rst').read()
 
-setup(
+setuptools.setup(
   name = 'lcboapi',
-  packages = ['lcboapi'],
   version = '0.2.0',
-  description = 'Python wrapper for the unofficial LCBO API',
-  long_description = long_description,
   author = 'Shane Martin',
   author_email = 'dev.sh@nemart.in',
-  license='MIT License',
+  description = 'Python wrapper for the unofficial LCBO API',
+  long_description = long_description,
   url = 'https://github.com/shamrt/LCBOAPI',
+  packages=setuptools.find_packages(),
+  license='MIT License',
   download_url = 'https://github.com/shamrt/LCBOAPI/archive/v0.2.0.tar.gz',
   keywords = ['api', 'lcbo'],
-  platforms = ['any'],
   classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
