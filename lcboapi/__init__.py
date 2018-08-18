@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LCBOAPI
 ~~~~~~~
@@ -7,8 +6,9 @@ Python wrapper for the unofficial LCBO API - https://lcboapi.com/docs
 """
 import json
 import time
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.parse
+import urllib.error
 import logging
 
 __title__ = 'lcboapi'
@@ -25,6 +25,7 @@ class LCBOAPI(object):
     Arguments:
         access_key = LCBO API access key
     """
+
     def __init__(self, access_key):
         self.access_key = access_key
         self.response_type = 'json'
@@ -135,3 +136,6 @@ class LCBOAPI(object):
         if dataset_id:
             path = '/'.join([path, str(dataset_id)])
         return self._make_query(path, params)
+
+    def datasets_zip(parameter_list):
+        pass
