@@ -41,8 +41,12 @@ def test_datasets_without_args():
         _check_result_attrs(res)
 
 
-def test_datasets_with_dataset_id():
-    resp = api.datasets(DATASET_ID)
+@pytest.mark.parametrize("test_input", [
+    "latest",
+    DATASET_ID,
+])
+def test_datasets_with_dataset_id(test_input):
+    resp = api.datasets(test_input)
     assert resp['status'] == 200
     assert 'pager' not in resp
     assert 'result' in resp
