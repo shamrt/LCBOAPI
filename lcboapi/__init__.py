@@ -28,19 +28,8 @@ class LCBOAPI(object):
 
     def __init__(self, access_key):
         self.access_key = access_key
-        self.response_type = 'json'
         self.timeout = 0.05
         self.url = 'https://lcboapi.com'
-
-    def set_response_type(self, response_type):
-        """Set response format for the API (default = JSON).
-
-        Arguments:
-            response_type = The default response format for the API ('json'
-                or 'csv')
-        """
-        if response_type == 'json' or response_type == 'csv':
-            self.response_type = response_type
 
     def _make_query(self, path, params=None):
         """Build query URL and make request.
