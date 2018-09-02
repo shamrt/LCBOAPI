@@ -66,4 +66,7 @@ def test_datasets_zip_with_dataset_id_returns_expected_files(test_input):
     resp = api.datasets_zip(test_input)
     zipfile = ZipFile(BytesIO(resp.read()))
 
-    assert zipfile.namelist() == ['stores.csv', 'products.csv', 'inventories.csv']
+    assert zipfile.namelist() == ['stores.csv',
+                                  'products.csv',
+                                  'inventories.csv']
+
