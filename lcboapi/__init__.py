@@ -151,7 +151,12 @@ class LCBOAPI(object):
             dataset_id = An inventory ID for the specified dataset
         """
         zip_path = '{}.zip'.format(path)
-        request = self.generate_api_request(zip_path)
+
+        url_joined = urllib.parse.urljoin(BASEURL, zip_path)
+        query_url = urllib.parse.urljoin(url_joined, '?access_key={}'.format(self.access_key))
+
+        request = urllib.request.Request(query_url)
+
         return urllib.request.urlopen(request)
 
     def datasets_zip(self, dataset_id="latest"):
