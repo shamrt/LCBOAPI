@@ -12,7 +12,7 @@ import logging
 from urllib.error import URLError, HTTPError
 
 __title__ = 'lcboapi'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __author__ = 'Shane Martin'
 __license__ = 'MIT'
 

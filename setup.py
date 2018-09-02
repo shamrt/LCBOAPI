@@ -4,7 +4,7 @@ long_description = open('README.rst').read()
 
 setuptools.setup(
   name = 'lcboapi',
-  version = '0.2.0',
+  version = '0.2.1',
   author = 'Shane Martin',
   author_email = 'dev.sh@nemart.in',
   description = 'Python wrapper for the unofficial LCBO API',
@@ -12,7 +12,7 @@ setuptools.setup(
   url = 'https://github.com/shamrt/LCBOAPI',
   packages=setuptools.find_packages(),
   license='MIT License',
-  download_url = 'https://github.com/shamrt/LCBOAPI/archive/v0.2.0.tar.gz',
+  download_url = 'https://github.com/shamrt/LCBOAPI/archive/v0.2.1.tar.gz',
   keywords = ['api', 'lcbo'],
   classifiers=[
         'Development Status :: 4 - Beta',
