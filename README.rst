@@ -65,3 +65,20 @@ Finally, run tests:
 
     $ py.test
 
+Versioning and Publishing
+-------------------------
+
+Requirements:
+
+- `bumpversion <https://pypi.org/project/bumpversion/>`
+- `twine <https://pypi.org/project/twine/>`
+
+Run:
+
+::
+
+    $ . env/bin/activate
+    $ pytest tests/
+    $ bumpversion [patch/minor/major]
+    $ python setup.py sdist bdist_wheel
+    $ python -m twine upload dist/*
