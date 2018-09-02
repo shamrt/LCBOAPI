@@ -8,13 +8,16 @@ import json
 import time
 import urllib.request
 import urllib.parse
-import urllib.error
 import logging
+from urllib.error import URLError, HTTPError
 
 __title__ = 'lcboapi'
 __version__ = '0.2.0'
 __author__ = 'Shane Martin'
 __license__ = 'MIT'
+
+BASEURL = 'https://lcboapi.com'
+DATASETS_PATH = 'datasets'
 
 logger = logging.getLogger(__name__)
 
@@ -28,22 +31,10 @@ class LCBOAPI(object):
 
     def __init__(self, access_key):
         self.access_key = access_key
-        self.response_type = 'json'
         self.timeout = 0.05
-        self.url = 'https://lcboapi.com'
 
-    def set_response_type(self, response_type):
-        """Set response format for the API (default = JSON).
-
-        Arguments:
-            response_type = The default response format for the API ('json'
-                or 'csv')
-        """
-        if response_type == 'json' or response_type == 'csv':
-            self.response_type = response_type
-
-    def _make_query(self, path, params=None):
-        """Build query URL and make request.
+    def generate_api_request(self, path, params=None):
+        """Build query URL and generate LCBOAPI request object.
 
         Arguments:
             path = The URL path, which must always begin with the request
@@ -52,9 +43,9 @@ class LCBOAPI(object):
                 for details)
 
         Returns:
-            Deserialized JSON query response as Python object
+            Request object for LCBOAPI
         """
-        url_parts = [self.url]
+        url_parts = [BASEURL]
         url_parts.append(path)
         if params:
             url_params = urllib.parse.urlencode(params)
@@ -66,13 +57,29 @@ class LCBOAPI(object):
         request = urllib.request.Request(query_url)
         request.add_header(
             'Authorization', 'Token {}'.format(self.access_key))
+
+        return request
+
+    def __get_json(self, path, params=None):
+        """Get JSON response from LCBOAPI.
+
+        Arguments:
+            path = The URL path, which must always begin with the request
+                endpoint ('stores', 'products', 'inventories', 'datasets')
+            params = Query parametres (optional; see https://lcboapi.com/docs
+                for details)
+
+        Returns:
+            Deserialized JSON query response as Python object
+        """
+        request = self.generate_api_request(path, params)
         payload = urllib.request.urlopen(request)
 
         response = None
         try:
             response = json.load(payload)
-        except ValueError as e:
-            logger.exception("Issue with payload: \"{}\"".format(payload))
+        except ValueError:
+            logger.exception("Issue with JSON payload: \"{}\"".format(payload))
 
         # be nice to LCBOAPI and they'll be nice to you!
         time.sleep(self.timeout)
@@ -90,7 +97,7 @@ class LCBOAPI(object):
         path = 'stores'
         if store_id:
             path = '/'.join([path, str(store_id)])
-        return self._make_query(path, params)
+        return self.__get_json(path, params)
 
     def products(self, product_id=None, **params):
         """Get products data.
@@ -103,7 +110,7 @@ class LCBOAPI(object):
         path = 'products'
         if product_id:
             path = '/'.join([path, str(product_id)])
-        return self._make_query(path, params)
+        return self.__get_json(path, params)
 
     def inventories(self, store_id=None, product_id=None, **params):
         """Get data about the presence of a product at an LCBO store.
@@ -122,7 +129,7 @@ class LCBOAPI(object):
             params['store_id'] = store_id
         elif product_id:
             params['store_id'] = product_id
-        return self._make_query(path, params)
+        return self.__get_json(path, params)
 
     def datasets(self, dataset_id=None, **params):
         """Get a list of inventories that can be filtered and ordered by parameters.
@@ -132,10 +139,26 @@ class LCBOAPI(object):
             params = Query parametres (optional; see https://lcboapi.com/docs
                 for details)
         """
-        path = 'datasets'
+        path = DATASETS_PATH
         if dataset_id:
             path = '/'.join([path, str(dataset_id)])
-        return self._make_query(path, params)
+        return self.__get_json(path, params)
 
-    def datasets_zip(parameter_list):
-        pass
+    def __get_zip(self, path):
+        """Get ZIP response binary object from LCBOAPI.
+
+        Arguments:
+            dataset_id = An inventory ID for the specified dataset
+        """
+        zip_path = '{}.zip'.format(path)
+        request = self.generate_api_request(zip_path)
+        return urllib.request.urlopen(request)
+
+    def datasets_zip(self, dataset_id="latest"):
+        """Get a ZIP of the given dataset_id.
+
+        Arguments:
+            dataset_id = An inventory ID for the specified dataset
+        """
+        path = '/'.join([DATASETS_PATH, str(dataset_id)])
+        return self.__get_zip(path)

@@ -1,6 +1,9 @@
 import pytest
+from pytest_mock import mocker
+import urllib
 
 from tests import api
+from lcboapi import LCBOAPI
 
 
 RESULT_ATTRIBUTES = [
@@ -51,3 +54,16 @@ def test_datasets_with_dataset_id(test_input):
     assert 'pager' not in resp
     assert 'result' in resp
     _check_result_attrs(resp['result'])
+
+
+@pytest.mark.parametrize("test_input", [
+    "latest",
+    DATASET_ID,
+])
+def test_datasets_zip_with_makes_generated_request(test_input, mocker):
+    mocker.patch('urllib.request.urlopen')
+    mocker.patch('lcboapi.LCBOAPI.generate_api_request')
+    api.datasets_zip(test_input)
+    # pylint: disable=E1101
+    api.generate_api_request.assert_called_once_with(
+        'datasets/{}.zip'.format(test_input))
