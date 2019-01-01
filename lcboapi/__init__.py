@@ -33,7 +33,7 @@ class LCBOAPI(object):
         self.access_key = access_key
         self.timeout = 0.05
 
-    def generate_api_request(self, path, params=None):
+    def __generate_api_request(self, path, params=None):
         """Build query URL and generate LCBOAPI request object.
 
         Arguments:
@@ -72,7 +72,7 @@ class LCBOAPI(object):
         Returns:
             Deserialized JSON query response as Python object
         """
-        request = self.generate_api_request(path, params)
+        request = self.__generate_api_request(path, params)
         payload = urllib.request.urlopen(request)
 
         response = None
