@@ -2,6 +2,9 @@ import pytest
 from pytest_mock import mocker
 import urllib
 
+from zipfile import ZipFile
+from io import BytesIO
+
 from tests import api
 from lcboapi import LCBOAPI
 
@@ -58,12 +61,12 @@ def test_datasets_with_dataset_id(test_input):
 
 @pytest.mark.parametrize("test_input", [
     "latest",
-    DATASET_ID,
 ])
-def test_datasets_zip_with_makes_generated_request(test_input, mocker):
-    mocker.patch('urllib.request.urlopen')
-    mocker.patch('lcboapi.LCBOAPI.generate_api_request')
-    api.datasets_zip(test_input)
-    # pylint: disable=E1101
-    api.generate_api_request.assert_called_once_with(
-        'datasets/{}.zip'.format(test_input))
+def test_datasets_zip_with_dataset_id_returns_expected_files(test_input):
+    resp = api.datasets_zip(test_input)
+    zipfile = ZipFile(BytesIO(resp.read()))
+
+    assert zipfile.namelist() == ['stores.csv',
+                                  'products.csv',
+                                  'inventories.csv']
+
